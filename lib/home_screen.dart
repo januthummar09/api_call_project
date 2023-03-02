@@ -33,10 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        setPersonApi();
-        
-      },),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setPersonApi();
+        },
+        child: const Icon(Icons.add),
+      ),
       body: ListView(
         children: [
           // ListView.separated(
@@ -179,23 +181,25 @@ class _HomeScreenState extends State<HomeScreen> {
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: {
-          "userId": 10,
-          "id": 11,
-          "title":
-              "janki",
-          "body":
-              "flutter developer"
-        },
+        body: jsonEncode(
+          {
+            "userId": 10,
+            "id": 11,
+            "title": "janki",
+            "body": "flutter developer"
+          },
+        ),
       );
       if (response.statusCode == 200) {
-       
         // debugPrint("Status Code -------------->>> ${response.statusCode}");
 
-        debugPrint("Status Code -------------->>> ${response.body}");
+        debugPrint("\n\n set Code -------------->>> ${response.body}");
 
         // PostsModal postsModal = PostsModal.fromJson(jsonDecode(response.body));  //Map
 
+        setState(() {});
+      } else if (response.statusCode == 201) {
+        debugPrint("Response -------------->>> ${jsonDecode(response.body)}");
         setState(() {});
       } else {
         debugPrint("Status Code -------------->>> ${response.statusCode}");
